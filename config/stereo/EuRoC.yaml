@@ -10,7 +10,7 @@
 #System.LoadAtlasFromFile: "Session_MH01_MH02_MH03_Stereo60_Pseudo"
 
 # The store file is created from the current session, if a file with the same name exists it is deleted
-System.SaveAtlasToFile: "maps/orb_slam3/machine_hole_ros2/MH_01_easy/2026_6_17_1600"
+System.SaveAtlasToFile: "maps/orb_slam3/machine_hole_ros2/MH_05_difficult/2026_6_23_1725"
 
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!

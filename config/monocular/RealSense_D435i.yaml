@@ -1,15 +1,16 @@
 %YAML:1.0
 
+System.SaveAtlasToFile: “maps/orb_slam3/realsense_sampledatabags/0619_koudai_040105_2026_06_29_09_15_00/2026_6_30_1800”
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!
 #--------------------------------------------------------------------------------------------
 Camera.type: "PinHole"
 
 # Left Camera calibration and distortion parameters (OpenCV)
-Camera.fx: 382.613
-Camera.fy: 382.613
-Camera.cx: 320.183
-Camera.cy: 236.455
+Camera.fx: 605.8364868164062  //382.613
+Camera.fy: 605.3819580078125  //382.613
+Camera.cx: 326.3115234375     //320.183
+Camera.cy: 249.6804962158203  //236.455
 
 # distortion parameters
 Camera.k1: 0.0

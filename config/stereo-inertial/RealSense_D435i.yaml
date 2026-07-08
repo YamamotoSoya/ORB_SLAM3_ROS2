@@ -1,5 +1,8 @@
 %YAML:1.0
 
+# The store file is created from the current session, if a file with the same name exists it is deleted
+# "maps/orb_slam3/hoge_dir/hoge_file"
+System.SaveAtlasToFile: "maps/orb_slam3/my_realsense_bags/ros2/stereo_inertial/office_2026_07_07_1851/record_2026_07_08_1430"
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!
 #--------------------------------------------------------------------------------------------

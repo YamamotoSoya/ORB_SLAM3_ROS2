@@ -57,7 +57,10 @@ StereoInertialNode::StereoInertialNode(ORB_SLAM3::System *SLAM, const string &st
         cv::initUndistortRectifyMap(K_r, D_r, R_r, P_r.rowRange(0, 3).colRange(0, 3), cv::Size(cols_r, rows_r), CV_32F, M1r_, M2r_);
     }
 
-    subImu_ = this->create_subscription<ImuMsg>("imu", 1000, std::bind(&StereoInertialNode::GrabImu, this, _1));
+    // realsense2_camera publishes /imu with SENSOR_DATA (BEST_EFFORT) QoS by default,
+    // and ros2 bag replays with the recorded QoS, so the subscriber must match BEST_EFFORT
+    // or the incompatible RELIABLE default silently drops all IMU messages.
+    subImu_ = this->create_subscription<ImuMsg>("imu", rclcpp::QoS(1000).best_effort(), std::bind(&StereoInertialNode::GrabImu, this, _1));
     subImgLeft_ = this->create_subscription<ImageMsg>("camera/left", 100, std::bind(&StereoInertialNode::GrabImageLeft, this, _1));
     subImgRight_ = this->create_subscription<ImageMsg>("camera/right", 100, std::bind(&StereoInertialNode::GrabImageRight, this, _1));
 
@@ -162,11 +165,15 @@ void StereoInertialNode::SyncWithImu()
 
             if ((tImLeft - tImRight) > maxTimeDiff || (tImRight - tImLeft) > maxTimeDiff)
             {
-                std::cout << "big time difference" << std::endl;
+                std::cout << "big time difference: " << (tImLeft - tImRight) << " s" << std::endl;
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
                 continue;
             }
             if (tImLeft > Utility::StampToSec(imuBuf_.back()->header.stamp))
+            {
+                std::this_thread::sleep_for(std::chrono::milliseconds(1));
                 continue;
+            }
 
             bufMutexLeft_.lock();
             imLeft = GetImage(imgLeftBuf_.front());

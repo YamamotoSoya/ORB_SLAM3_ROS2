@@ -90,22 +90,14 @@ void StereoInertialNode::GrabImu(const ImuMsg::SharedPtr msg)
 void StereoInertialNode::GrabImageLeft(const ImageMsg::SharedPtr msgLeft)
 {
     bufMutexLeft_.lock();
-
-    if (!imgLeftBuf_.empty())
-        imgLeftBuf_.pop();
     imgLeftBuf_.push(msgLeft);
-
     bufMutexLeft_.unlock();
 }
 
 void StereoInertialNode::GrabImageRight(const ImageMsg::SharedPtr msgRight)
 {
     bufMutexRight_.lock();
-
-    if (!imgRightBuf_.empty())
-        imgRightBuf_.pop();
     imgRightBuf_.push(msgRight);
-
     bufMutexRight_.unlock();
 }
 

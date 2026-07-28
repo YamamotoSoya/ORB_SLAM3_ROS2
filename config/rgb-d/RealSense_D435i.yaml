@@ -1,16 +1,18 @@
 %YAML:1.0
 
-System.SaveAtlasToFile: "maps/orb_slam3/realsense_sampledata/realsense_1/2026_6_29_1940"
+System.SaveAtlasToFile: "maps/orb_slam3/my_realsense_bags/ros2/rgbd/office_2026_07_28_1800/record_2026_07_28_1800"
 #--------------------------------------------------------------------------------------------
 # Camera Parameters. Adjust them!
 #--------------------------------------------------------------------------------------------
 Camera.type: "PinHole"
 
 # Right Camera calibration and distortion parameters (OpenCV)
-Camera.fx: 617.201
-Camera.fy: 617.362
-Camera.cx: 324.637
-Camera.cy: 242.462
+# Values read live from /camera/camera/color/camera_info while streaming at 640x480
+# (2026-07-28, see documents/camera_calibration_from_bag.md for the extraction method).
+Camera.fx: 605.8364868164062
+Camera.fy: 605.3819580078125
+Camera.cx: 326.3115234375
+Camera.cy: 249.6804962158203
 
 
 # distortion parameters
@@ -30,7 +32,11 @@ Camera.fps: 30.0
 Camera.RGB: 1
 
 # Image scale, it changes the image size to be processed (<1.0: reduce, >1.0: increase)
-Camera.imageScale: 0.5 # 0.5 #0.7071 # 1/sqrt(2)
+# NOTE: rgbd-slam-node.cpp does not actually resize the incoming RGB/depth images
+# (unlike upstream ORB_SLAM3's Examples/RGB-D/rgbd_realsense_D435i.cc), so this must
+# stay 1.0 or the intrinsics (fx/fy/cx/cy) will mismatch the full-resolution images,
+# stretching depth-backprojected points and destabilizing tracking.
+Camera.imageScale: 1.0
 
 # Close/Far threshold. Baseline times.
 ThDepth: 40.0

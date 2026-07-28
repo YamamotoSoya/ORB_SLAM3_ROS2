@@ -9,10 +9,12 @@ System.SaveAtlasToFile: "maps/orb_slam3/my_realsense_bags/ros2/stereo_inertial/o
 Camera.type: "PinHole"
 
 # Left Camera calibration and distortion parameters (OpenCV)
-Camera.fx: 382.613
-Camera.fy: 382.613
-Camera.cx: 320.183
-Camera.cy: 236.455
+# Values read live from /camera/camera/infra1/camera_info while streaming at 640x480
+# (2026-07-28, see documents/camera_calibration_from_bag.md for the extraction method).
+Camera.fx: 390.16748046875
+Camera.fy: 390.16748046875
+Camera.cx: 320.8085632324219
+Camera.cy: 241.41146850585938
 
 # distortion parameters
 Camera.k1: 0.0
@@ -21,10 +23,10 @@ Camera.p1: 0.0
 Camera.p2: 0.0
 
 # Right Camera calibration and distortion parameters (OpenCV)
-Camera2.fx: 382.613
-Camera2.fy: 382.613
-Camera2.cx: 320.183
-Camera2.cy: 236.455
+Camera2.fx: 390.16748046875
+Camera2.fy: 390.16748046875
+Camera2.cx: 320.8085632324219
+Camera2.cy: 241.41146850585938
 
 # distortion parameters
 Camera2.k1: 0.0
@@ -53,12 +55,16 @@ Camera.fps: 30.0
 Camera.RGB: 1
 
 # Image scale, it changes the image size to be processed (<1.0: reduce, >1.0: increase)
-Camera.imageScale: 0.5 # 0.5 #0.7071 # 1/sqrt(2)
+# NOTE: stereo-inertial-node.cpp does not actually resize the incoming images
+# (unlike upstream ORB_SLAM3's Examples), so this must stay 1.0 or the intrinsics
+# (fx/fy/cx/cy) will mismatch the full-resolution images. See
+# documents/rgbd_scale_and_camera_profile_mismatch_fix.md for the same bug in rgbd mode.
+Camera.imageScale: 1.0
 
 # Close/Far threshold. Baseline times.
 ThDepth: 40.0
 # stereo baseline times fx
-Camera.bf: 19.114771561
+Camera.bf: 19.575626373291016
 
 # Transformation from body-frame (imu) to left camera
 Tbc: !!opencv-matrix
